@@ -1,0 +1,10 @@
+#include "libftprintf.h"
+#include <stdio.h>
+
+int		main()
+{
+	int a = ft_printf("%07i\n", -54);
+	int b = printf("%07i\n", -54);
+	printf("%i == %i ", a, b);
+	return (0);
+}
