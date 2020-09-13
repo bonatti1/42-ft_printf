@@ -6,11 +6,19 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:37:55 by ocarlos-          #+#    #+#             */
-/*   Updated: 2020/05/24 11:22:29 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2020/07/30 17:24:29 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
+
+/*
+** ft_initform     - initializes the format struct
+** ft_countdig - counts digits in a int variable
+** ft_revstr     - reverses a string
+** ft_itoabase  - converts integer to string using base (2, 10, 16, etc)
+** ft_uppercase - upcases a string
+*/
 
 t_prtform	*ft_initform(t_prtform *form)
 {
@@ -28,7 +36,7 @@ t_prtform	*ft_initform(t_prtform *form)
 	return (form);
 }
 
-int			ft_countdig(long long int n, int b)
+int			ft_countdig(unsigned long long int n, int b)
 {
 	int	i;
 
@@ -56,7 +64,7 @@ void		ft_revstr(char *s, int size)
 	}
 }
 
-char		*ft_itoabase(long long int n, int b)
+char		*ft_itoabase(unsigned long long int n, int b)
 {
 	int		i;
 	int		r;

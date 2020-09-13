@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   libformat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msales-a <msales-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:48:41 by ocarlos-          #+#    #+#             */
-/*   Updated: 2020/05/26 21:40:29 by msales-a         ###   ########.fr       */
+/*   Updated: 2020/07/30 17:28:10 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
+
+/*
+** ft_precisionchar - checks if precision value is less than
+**                    characters in string
+** ft_precisionint  - checks and prints the 0 padding for int
+** 					  values
+** ft_padding       - checks and prints the padding character
+** ft_negint	    - adjusts the padding and prints the - sign
+** 					  on negative numbers
+*/
 
 char	*ft_precisionchar(char *s, t_prtform *form)
 {
@@ -57,24 +67,38 @@ int		ft_padding(t_prtform *form)
 	form->pad *= (form->pad < 0) ? -1 : 1;
 	if (form->siz >= form->pad)
 		return (0);
+	if (form->prc == 0 && form->hpr)
+		form->pch = ' ';
 	while (form->siz < form->pad)
 	{
-		if ((form->prc < form->pad) && form->prc != 0)
+		if ((form->prc < form->pad) && form->prc > 0 && form->hpr)
 			ft_putchar_fd(' ', 1);
 		else
 			ft_putchar_fd(form->pch, 1);
 		form->siz++;
 	}
-	//if (form->ngi < 0 && form->pch == '0' && (form->prc < form->pad))  // adicionado para negativo
-//		ft_putchar_fd('-', 1);
 	return (1);
 }
 
 char	*ft_negint(t_prtform *form, int i, char *s)
 {
-	char *temp;
+	char	*temp;
+	size_t	c;
+	size_t	p;
 
-	if (i < 0 && form->pch == ' ')
+	c = ft_strlen(s) + 1;
+	p = form->pad;
+	if (c < p && i < 0 && form->pch == '0' && form->pad > 0 && form->prc < 0)
+	{
+		while (c < p)
+		{
+			temp = ft_strjoin("0", s);
+			free(s);
+			s = temp;
+			c++;
+		}
+	}
+	if (i < 0 && (form->pch == ' ' || (form->hpr && form->prc < form->pad)))
 	{
 		temp = ft_strjoin("-", s);
 		free(s);

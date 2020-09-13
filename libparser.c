@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   libparser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msales-a <msales-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:36:00 by ocarlos-          #+#    #+#             */
-/*   Updated: 2020/05/26 21:31:07 by msales-a         ###   ########.fr       */
+/*   Updated: 2020/07/30 17:09:26 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
+
+/*
+** ft_fp_precision - checks for precision value in the format string
+** ft_fp_width     - checks the size of the format string
+** ft_fp_flag      - checks for flags in the format string
+** ft_formparser   - entry point to define the format struct
+*/
 
 t_prtform	*ft_fp_precision(t_prtform *form, char *str, va_list lst)
 {
@@ -22,17 +29,17 @@ t_prtform	*ft_fp_precision(t_prtform *form, char *str, va_list lst)
 		if (ft_isdigit(*str))
 		{
 			form->prc = ft_atoi((char *)str);
-			while(ft_isdigit(*str)) {
-				str++;
+			while (ft_isdigit(*str) && str++)
 				form->chf++;
-			}
-		} else if (*str == '*') {
+		}
+		else if (*str == '*')
+		{
 			form->prc = va_arg(lst, int);
 			str++;
 			form->chf++;
 		}
 	}
-	if (ft_isvalid(*str))
+	if (ft_isvalid(form, str))
 	{
 		form->typ = *str++;
 		form->chf++;
@@ -47,11 +54,14 @@ t_prtform	*ft_fp_width(t_prtform *form, char *str, va_list lst)
 		if (ft_isdigit(*str))
 		{
 			form->pad = ft_atoi((char *)str);
-			while(ft_isdigit(*str)) {
+			while (ft_isdigit(*str))
+			{
 				str++;
 				form->chf++;
 			}
-		} else if (*str == '*') {
+		}
+		else if (*str == '*')
+		{
 			form->pad = va_arg(lst, int);
 			form->neg = form->pad < 0 ? 1 : form->neg;
 			str++;
@@ -66,7 +76,6 @@ t_prtform	*ft_fp_flag(t_prtform *form, char *str, va_list lst)
 {
 	while (*str == '-' || *str == '0')
 	{
-
 		if (*str == '-')
 			form->neg = *str == '-' ? 1 : 0;
 		if (*str == '0')

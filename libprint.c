@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   libprint.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msales-a <msales-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:45:56 by ocarlos-          #+#    #+#             */
-/*   Updated: 2020/05/26 21:51:51 by msales-a         ###   ########.fr       */
+/*   Updated: 2020/07/30 17:12:19 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
+
+/*
+** ft_pchr - prints a single character and its informed padding, if needed
+** ft_phex - prints hexadecimal values and its padding, if needed
+** ft_pint - prints int values and its padding, if needed
+** ft_pstr - prints strings and its padding, if needed
+** ft_puin - prints unsigned int values and its padding, if needed
+*/
 
 int		ft_pchr(char c, t_prtform *form)
 {
@@ -23,7 +31,7 @@ int		ft_pchr(char c, t_prtform *form)
 	return (1);
 }
 
-int		ft_phex(long long int i, t_prtform *form, int swt)
+int		ft_phex(unsigned long int i, t_prtform *form, int swt)
 {
 	char	*s;
 	char	*temp;
@@ -51,28 +59,30 @@ int		ft_phex(long long int i, t_prtform *form, int swt)
 	return (form->siz);
 }
 
-int		ft_pint(int i, t_prtform *form)
+int		ft_pint(long int i, t_prtform *form)
 {
 	char	*s;
-	int		num;
+	long	num;
 
 	num = (i < 0) ? i * -1 : i;
-	form->ngi = i;
-	s = (ft_testprcpad(form, num)) ? ft_strdup(" ") : ft_itoabase(num, 10);
+	form->ngi = 1;
+	s = (ft_testprcpad(form, num)) ? ft_strdup("") : ft_itoabase(num, 10);
 	if (form->hpr)
 		s = ft_precisionint(s, form);
 	s = ft_negint(form, i, s);
-	if (i < 0 && form->pch == '0' && (form->prc >= form->pad || form->prc >= form->pad * -1))
-		ft_putchar_fd('-', 1);
 	form->siz = ft_strlen(s);
-	form->pad -= (i < 0 && (form->pch == '0')) ? 1 : 0;
-	if (!i && !form->prc && form->hpr)
+	if (i < 0 && form->pch == '0' && !(form->hpr && form->prc < form->pad))
 	{
-		free(s);
-		s = NULL;
+		ft_putchar_fd('-', 1);
+		form->siz++;
+	}
+	if (i == 0 && form->pad == 1 && form->hpr && form->prc == 0)
+	{
+		ft_putchar_fd(' ', 1);
+		form->siz++;
 	}
 	ft_printpad(form, s);
-	return (form->siz + ((i < 0 && form->pch == '0') ? 1 : 0));
+	return (form->siz);
 }
 
 int		ft_pstr(char *s, t_prtform *form)

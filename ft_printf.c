@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msales-a <msales-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 09:55:12 by ocarlos-          #+#    #+#             */
-/*   Updated: 2020/05/23 12:04:10 by msales-a         ###   ########.fr       */
+/*   Updated: 2020/07/30 16:55:02 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
+
+/*
+** ft_printf   - entry point
+** ft_doprintf - sets the formatting structure and test for padding
+** 				 necessity
+*/
 
 int		ft_doprintf(const char *str, va_list lst)
 {

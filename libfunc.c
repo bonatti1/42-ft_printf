@@ -3,18 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   libfunc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msales-a <msales-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 11:25:45 by ocarlos-          #+#    #+#             */
-/*   Updated: 2020/05/26 20:42:33 by msales-a         ###   ########.fr       */
+/*   Updated: 2020/07/30 17:06:21 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-void    ft_printpad(t_prtform *form, char *s)
+/*
+** ft_printpad - prints the padding where needed
+*/
+
+void	ft_printpad(t_prtform *form, char *s)
 {
-	if (!s && form->hpr && !form->prc && form->pch == '0')
+	if (!s && form->hpr && !form->prc && form->pch)
 		form->pch = ' ';
 	if (form->pad > 0)
 		ft_padding(form);
